@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Zone SK - Paintball</title>
+    <link rel="stylesheet" href="fonte.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="DALL·E 2025-02-21 15.41.22 - A fierce red dragon in a side-facing position, with sharp scales and glowing eyes, set against a dark black background. The dragon has an aggressive s.webp" alt="Red Zone SK Logo">
+            <h1>Red Zone SK</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#agendamento">Agendamento</a></li>
+                <li><a href="#jogos">Jogos</a></li>
+                <li><a href="#espaco">Espaço Red Zone SK</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <img src="DALL·E 2025-02-21 15.41.22 - A fierce red dragon in a side-facing position, with sharp scales and glowing eyes, set against a dark black background. The dragon has an aggressive s.webp" alt="Jogadores em ação no paintball">
+        <h2>O Campo de Batalha Definitivo</h2>
+        <p>Aventure-se no paintball mais tecnológico e intenso que existe!</p>
+    </section>
+    
+    <section id="sobre" class="container">
+        <h2>Sobre nós</h2>
+        <p>Nossa empresa nasceu para proporcionar momentos inesquecíveis de lazer, adrenalina e diversão para todas as idades! Oferecemos uma experiência completa, unindo ação e entretenimento em um só lugar.</p>
+    </section>
+    
+    <section id="espaco" class="container">
+        <h2>Espaço Red Zone SK</h2>
+        <img src="espaço.jpg" alt="Espaço Red Zone SK">
+        <p>Um ambiente pensado para o seu conforto, com áreas de descanso, alimentação e diversão para toda a família.</p>
+    </section>
+    
+    <section id="jogos" class="container">
+        <h2>Jogos</h2>
+        <div class="gallery">
+            <img src="o-que-e-paintball-1024x576.jpg" alt="Jogo de paintball 1">
+            <img src="player-playing-paintball-game-with-gun-high-quality-photo.jpg" alt="Jogo de paintball 2">
+            <img src="Paintball 2.jpg" alt="Jogo de paintball 3">
+        </div>
+    </section>
+    
+    <section id="agendamento" class="container">
+        <h2>Reserve Seu Horário</h2>
+        <img src="images/paintball-booking.jpg" alt="Jogadores preparando para a partida">
+        <table>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </tr>
+            <?php
+            include 'conexao.php';
+            $sql = "SELECT * FROM horarios ORDER BY data, hora";
+            $result = $conn->query($sql);
+            while ($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= date('d/m/Y', strtotime($row['data'])) ?></td>
+                    <td><?= date('H:i', strtotime($row['hora'])) ?></td>
+                    <td><?= $row['disponivel'] ? "Disponível" : "Indisponível" ?></td>
+                    <td>
+                        <?php if ($row['disponivel']): ?>
+
+                        <?php else: ?>
+                            Indisponível
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
+    </section>
+    
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharLogin()">&times;</span>
+            <h2>Login</h2>
+            <form action="agendar.php" method="POST">
+                <input type="hidden" id="horario_id" name="horario_id">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="text" name="celular" placeholder="Celular" required>
+                <button type="submit">Confirmar</button>
+            </form>
+        </div>
+    </div>
+    
+    <section id="contato" class="container">
+        <h2>Contato</h2>
+        <img src="images/paintball-contact.jpg" alt="Contato do Red Zone SK">
+        <p>Fale conosco pelo WhatsApp: (88) 9 9988-7766</p>
+        <p>Endereço: Centro, 376 - Morada Nova</p>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 Red Zone SK - Todos os direitos reservados.</p>
+        <p>Siga-nos nas redes sociais: <i class="fab fa-instagram"></i> <i class="fab fa-facebook"></i> <i class="fab fa-twitter"></i></p>
+    </footer>
+    
+    <script>
+        function abrirLogin(horarioId) {
+            document.getElementById('horario_id').value = horarioId;
+            document.getElementById('loginModal').style.display = 'block';
+        }
+        function fecharLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+
+
+
